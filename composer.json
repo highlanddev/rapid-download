@@ -1,0 +1,18 @@
+{
+  "name": "highlanddev/craft-rapid-download",
+  "description": "Rapid Download Plugin for Craft CMS",
+  "type": "craft-plugin",
+  "require": {
+    "craftcms/cms": "^4.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "highlanddev\\rapiddownload\\": "src/"
+    }
+  },
+  "extra": {
+    "name": "Rapid Download",
+    "handle": "rapid-download",
+    "class": "highlanddev\\rapiddownload\\RapidDownload"
+  }
+}
