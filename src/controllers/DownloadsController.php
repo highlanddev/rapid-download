@@ -47,7 +47,18 @@ class DownloadsController extends Controller
             'currentPage' => $currentPage
         ]);
     }
+    public function actionDeleteAll(): Response
+    {
+        $this->requirePostRequest();
 
+        Craft::$app->db->createCommand()
+            ->delete('{{%rapiddownload_downloads}}')
+            ->execute();
+
+        Craft::$app->session->setNotice('All download records have been deleted.');
+
+        return $this->redirect('rapid-download/downloads');
+    }
     private function downloadCsv($downloads): Response
     {
         $rows = [];
