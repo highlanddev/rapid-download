@@ -25,8 +25,8 @@ class DownloadController extends Controller
                 'email' => $email,
                 'pageUrl' => $request->getReferrer(),
                 'filenames' => $asset->filename,
-                'dateCreated' => new \DateTime(),
-                'dateUpdated' => new \DateTime(),
+                'dateCreated' => (new \DateTime())->format('Y-m-d H:i:s'),
+                'dateUpdated' => (new \DateTime())->format('Y-m-d H:i:s'),
                 'uid' => \craft\helpers\StringHelper::UUID(),
             ])->execute();
 

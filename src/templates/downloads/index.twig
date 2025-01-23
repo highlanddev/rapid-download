@@ -1,0 +1,60 @@
+{% extends '_layouts/cp' %}
+{% set title = 'Downloads' %}
+
+{% block actionButton %}
+    <a href="{{ url('rapid-download/downloads', {download: 'csv'}) }}" class="btn">Download CSV</a>
+{% endblock %}
+
+{% block content %}
+    <form method="get">
+        <div class="flex">
+            <div class="flex-grow">
+                <input type="text" class="text fullwidth" name="search" value="{{ search }}" placeholder="Search email or filename">
+            </div>
+            <div class="flex-grow">
+                <input type="text" class="text fullwidth" name="pageUrl" value="{{ pageUrl }}" placeholder="Filter by page URL">
+            </div>
+            <div>
+                <button type="submit" class="btn submit">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="data fullwidth">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Email</th>
+            <th>Page URL</th>
+            <th>Files</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for download in downloads %}
+            <tr>
+                <td>{{ download.dateCreated|date('Y-m-d H:i:s') }}</td>
+                <td>{{ download.email }}</td>
+                <td>{{ download.pageUrl }}</td>
+                <td>{{ download.filenames }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if totalPages > 1 %}
+        <div class="pagination">
+            {% if currentPage > 1 %}
+                <a href="{{ url('rapid-download/downloads', {page: currentPage-1, search: search, pageUrl: pageUrl}) }}" class="page-link">&larr; Previous</a>
+            {% endif %}
+
+            {% for page in 1..totalPages %}
+                <a href="{{ url('rapid-download/downloads', {page: page, search: search, pageUrl: pageUrl}) }}"
+                   class="page-link {{ page == currentPage ? 'active' }}">{{ page }}</a>
+            {% endfor %}
+
+            {% if currentPage < totalPages %}
+                <a href="{{ url('rapid-download/downloads', {page: currentPage+1, search: search, pageUrl: pageUrl}) }}" class="page-link">Next &rarr;</a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

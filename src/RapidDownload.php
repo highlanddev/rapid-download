@@ -1,17 +1,18 @@
 <?php
 namespace highlanddev\rapiddownload;
 
-use highlanddev\rapiddownload\fields\RapidDownloadField;
-use craft\events\RegisterComponentTypesEvent;
-use craft\services\Fields;
+use Craft;
+use craft\base\Model;
+use craft\base\Plugin;
+use craft\events\RegisterCpNavItemsEvent;
+use craft\events\RegisterUrlRulesEvent;
+use craft\web\UrlManager;
+use craft\web\twig\variables\Cp;
 use yii\base\Event;
 
-class RapidDownload extends \craft\base\Plugin
+class RapidDownload extends Plugin
 {
     public static $plugin;
-
-    public string $schemaVersion = '1.0.0';
-    public bool $hasCpSettings = false;
 
     public function init()
     {
@@ -19,24 +20,37 @@ class RapidDownload extends \craft\base\Plugin
         self::$plugin = $this;
 
         Event::on(
-            Fields::class,
-            Fields::EVENT_REGISTER_FIELD_TYPES,
-            function(RegisterComponentTypesEvent $event) {
-                $event->types[] = RapidDownloadField::class;
+            UrlManager::class,
+            UrlManager::EVENT_REGISTER_CP_URL_RULES,
+            function(RegisterUrlRulesEvent $event) {
+                $event->rules['rapid-download/downloads'] = 'rapid-download/downloads/index';
             }
         );
+
+        if (Craft::$app->getRequest()->getIsCpRequest()) {
+            Event::on(
+                Cp::class,
+                Cp::EVENT_REGISTER_CP_NAV_ITEMS,
+                function(RegisterCpNavItemsEvent $event) {
+                    $event->navItems[] = [
+                        'url' => 'rapid-download/downloads',
+                        'label' => 'Downloads',
+                        'icon' => '@app/icons/download'
+                    ];
+                }
+            );
+        }
     }
 
-    protected function createSettingsModel(): ?craft\base\Model
+    protected function createSettingsModel(): ?Model
     {
-        return new \craft\base\Model();
+        return new Model();
     }
 
     public function afterInstall(): void
     {
         parent::afterInstall();
 
-        // Run install migration
         Craft::$app->db->createCommand()
             ->checkIntegrity(false)
             ->execute();
