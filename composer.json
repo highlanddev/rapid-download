@@ -3,9 +3,15 @@
   "description": "Rapid Download Plugin for Craft CMS",
   "type": "craft-plugin",
   "version": "1.0.0",
-  "minimum-stability": "dev",
-  "prefer-stable": true,
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Highland Dev",
+      "homepage": "https://highland.dev"
+    }
+  ],
   "require": {
+    "php": "^8.0.2",
     "craftcms/cms": "^5.0.0"
   },
   "autoload": {
