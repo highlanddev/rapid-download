@@ -16,20 +16,33 @@ class DownloadController extends Controller
         $request = Craft::$app->getRequest();
 
         $email = $request->getRequiredParam('email');
-        $assets = json_decode($request->getRequiredParam('assets'), true);
+        $assetsData = json_decode($request->getRequiredParam('assets'), true);
+        $assetId = $assetsData['where']['elements.id'][0] ?? null;
 
-        $message = new Message();
-        $message->setTo($email);
-        $message->setSubject('Your Requested Downloads');
+        if ($assetId && $asset = Craft::$app->elements->getElementById($assetId)) {
+            // Record download
+            Craft::$app->db->createCommand()->insert('{{%rapiddownload_downloads}}', [
+                'email' => $email,
+                'pageUrl' => $request->getReferrer(),
+                'filenames' => $asset->filename,
+                'dateCreated' => new \DateTime(),
+                'dateUpdated' => new \DateTime(),
+                'uid' => \craft\helpers\StringHelper::UUID(),
+            ])->execute();
 
-        $body = "Here are your download links:\n\n";
-        foreach ($assets as $asset) {
-            $body .= Craft::$app->assets->getAssetById($asset['id'])->getUrl() . "\n";
+            // Send email
+            $message = new Message();
+            $message->setTo($email);
+            $message->setSubject('Your Requested Downloads');
+
+            $body = "Here are your download links:\n\n<ul>";
+            $body .= "<li><a href='" . $asset->getUrl() . "'>" . $asset->filename . "</a></li>";
+            $body .= "</ul>";
+
+            $message->setHtmlBody($body);
+            Craft::$app->getMailer()->send($message);
         }
 
-        $message->setTextBody($body);
-        Craft::$app->getMailer()->send($message);
-
-        return $this->asJson(['success' => true]);
+        return $this->redirect($request->getReferrer());
     }
 }

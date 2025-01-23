@@ -26,4 +26,26 @@ class RapidDownload extends \craft\base\Plugin
             }
         );
     }
+
+    protected function createSettingsModel(): ?craft\base\Model
+    {
+        return new \craft\base\Model();
+    }
+
+    public function afterInstall(): void
+    {
+        parent::afterInstall();
+
+        // Run install migration
+        Craft::$app->db->createCommand()
+            ->checkIntegrity(false)
+            ->execute();
+
+        $migration = new \highlanddev\rapiddownload\migrations\Install();
+        $migration->up();
+
+        Craft::$app->db->createCommand()
+            ->checkIntegrity(true)
+            ->execute();
+    }
 }
