@@ -1,0 +1,35 @@
+{% if assets|length %}
+    <div class="node radius shadow">
+        <div class="rapid-download-form">
+            <h5>{{ fieldSettings.formTitle }}</h5>
+
+            {% if fieldSettings.allowDirectDownload %}
+                <div class="direct-downloads">
+                    {% for file in assets %}
+                        <div class="file">
+                            <a href="{{ file.url }}" download>{{ file.title }}</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>{{ fieldSettings.formDescription }}</p>
+                {% for file in assets %}
+                    <div class="file">{{ file.title }}</div>
+                {% endfor %}
+                <br>
+                <form action="{{ actionUrl('rapid-download/download/send') }}" method="POST">
+                    {{ csrfInput() }}
+                    <input type="hidden" name="assets" value="{&quot;where&quot;:{&quot;elements.id&quot;:[{{ assets|map(a => a.id)|join(',') }}]}}">
+                    <div>
+                        <label for="email">Your email</label>
+                        <input type="email" name="email" id="email" placeholder="Email address" required class="form-control">
+                        <button type="submit" class="button">{{ fieldSettings.buttonText }}</button>
+                    </div>
+                </form>
+                <div class="success-message" style="display:none;">
+                    {{ fieldSettings.successMessage }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

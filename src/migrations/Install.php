@@ -1,4 +1,5 @@
 <?php
+// migrations/Install.php
 namespace highlanddev\rapiddownload\migrations;
 
 use Craft;

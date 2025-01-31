@@ -1,6 +1,7 @@
 <?php
 namespace highlanddev\rapiddownload;
 
+
 use Craft;
 use craft\base\Model;
 use craft\base\Plugin;
@@ -8,7 +9,14 @@ use craft\events\RegisterCpNavItemsEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\web\UrlManager;
 use craft\web\twig\variables\Cp;
+use craft\services\Fields;
+use craft\events\RegisterComponentTypesEvent;
+use highlanddev\rapiddownload\fields\RapidDownloadField;
+use highlanddev\rapiddownload\variables\RapidDownloadVariable;
+
+use craft\web\twig\variables\CraftVariable;
 use yii\base\Event;
+
 
 class RapidDownload extends Plugin
 {
@@ -27,6 +35,15 @@ class RapidDownload extends Plugin
             }
         );
 
+        Event::on(
+            CraftVariable::class,
+            CraftVariable::EVENT_INIT,
+            function(Event $e) {
+                $variable = $e->sender;
+                $variable->set('rapidDownload', RapidDownloadVariable::class);
+            }
+        );
+
         if (Craft::$app->getRequest()->getIsCpRequest()) {
             Event::on(
                 Cp::class,
@@ -40,6 +57,15 @@ class RapidDownload extends Plugin
                 }
             );
         }
+
+        Event::on(
+            Fields::class,
+            Fields::EVENT_REGISTER_FIELD_TYPES,
+            function(RegisterComponentTypesEvent $event) {
+                $event->types[] = RapidDownloadField::class;
+            }
+        );
+
     }
 
     protected function createSettingsModel(): ?Model

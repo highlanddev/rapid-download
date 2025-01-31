@@ -1,0 +1,46 @@
+{% import "_includes/forms" as forms %}
+
+<div class="field">
+    <div class="heading">
+        <label>Download Form Settings</label>
+        <div class="instructions">Customize the download form for this entry</div>
+    </div>
+
+    {{ forms.lightswitchField({
+        label: "Allow Direct Downloads"|t('rapid-download'),
+        instructions: "Allow users to download files directly without entering email"|t('rapid-download'),
+        id: field.handle ~ '_settings_allowDirectDownload',
+        name: field.handle ~ '_settings[allowDirectDownload]',
+        on: settings.allowDirectDownload
+    }) }}
+
+    {{ forms.textField({
+        label: "Form Title"|t('rapid-download'),
+        instructions: "Title shown above the download form"|t('rapid-download'),
+        id: field.handle ~ '_settings_formTitle',
+        name: field.handle ~ '_settings[formTitle]',
+        value: settings.formTitle
+    }) }}
+
+    {{ forms.textareaField({
+        label: "Form Description"|t('rapid-download'),
+        instructions: "Description text shown above the email input"|t('rapid-download'),
+        id: field.handle ~ '_settings_formDescription',
+        name: field.handle ~ '_settings[formDescription]',
+        value: settings.formDescription
+    }) }}
+
+    {{ forms.textField({
+        label: "Button Text"|t('rapid-download'),
+        id: field.handle ~ '_settings_buttonText',
+        name: field.handle ~ '_settings[buttonText]',
+        value: settings.buttonText
+    }) }}
+
+    {{ forms.textField({
+        label: "Success Message"|t('rapid-download'),
+        id: field.handle ~ '_settings_successMessage',
+        name: field.handle ~ '_settings[successMessage]',
+        value: settings.successMessage
+    }) }}
+</div>

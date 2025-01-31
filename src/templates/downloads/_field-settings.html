@@ -1,0 +1,39 @@
+{% import "_includes/forms" as forms %}
+
+{{ forms.lightswitchField({
+label: "Allow Direct Downloads"|t('rapid-download'),
+instructions: "Allow users to download files directly without entering email"|t('rapid-download'),
+id: 'allowDirectDownload',
+name: 'allowDirectDownload',
+on: field.allowDirectDownload
+}) }}
+
+{{ forms.textField({
+label: "Form Title"|t('rapid-download'),
+instructions: "Title shown above the download form"|t('rapid-download'),
+id: 'formTitle',
+name: 'formTitle',
+value: field.formTitle
+}) }}
+
+{{ forms.textareaField({
+label: "Form Description"|t('rapid-download'),
+instructions: "Description text shown above the email input"|t('rapid-download'),
+id: 'formDescription',
+name: 'formDescription',
+value: field.formDescription
+}) }}
+
+{{ forms.textField({
+label: "Button Text"|t('rapid-download'),
+id: 'buttonText',
+name: 'buttonText',
+value: field.buttonText
+}) }}
+
+{{ forms.textField({
+label: "Success Message"|t('rapid-download'),
+id: 'successMessage',
+name: 'successMessage',
+value: field.successMessage
+}) }}
