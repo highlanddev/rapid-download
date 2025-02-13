@@ -30,13 +30,13 @@ class RapidDownloadVariable
         // Store the current template mode
         $oldMode = $view->getTemplateMode();
 
-        // Merge default field settings with overridden options
+        // Ensure default field settings are an array
         $defaultSettings = [];
         if ($fieldDefinition instanceof RapidDownloadField && $entryId) {
-            $defaultSettings = $fieldDefinition->getEntrySettings($entryId);
+            $defaultSettings = $fieldDefinition->getEntrySettings($entryId) ?? []; // Always return an array
         }
 
-        $mergedSettings = array_merge($defaultSettings ?? [], $options); // Merge custom overrides
+        $mergedSettings = array_merge($defaultSettings, $options); // Merge custom overrides
 
         // Switch to plugin templates mode
         $view->setTemplateMode($view::TEMPLATE_MODE_CP);
