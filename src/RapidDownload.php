@@ -15,6 +15,8 @@ use highlanddev\rapiddownload\fields\RapidDownloadField;
 use highlanddev\rapiddownload\variables\RapidDownloadVariable;
 
 use craft\web\twig\variables\CraftVariable;
+use craft\elements\Entry;
+
 use yii\base\Event;
 
 
@@ -34,6 +36,13 @@ class RapidDownload extends Plugin
                 $event->rules['rapid-download/downloads'] = 'rapid-download/downloads/index';
             }
         );
+        Event::on(Entry::class, Entry::EVENT_AFTER_DELETE, function(Event $event) {
+            $entry = $event->sender;
+
+            Craft::$app->getDb()->createCommand()
+                ->delete('rapiddownload_settings', ['entryId' => $entry->id])
+                ->execute();
+        });
 
         Event::on(
             CraftVariable::class,

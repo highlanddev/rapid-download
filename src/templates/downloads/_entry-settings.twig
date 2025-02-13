@@ -8,36 +8,36 @@
     {{ forms.lightswitchField({
         label: "Allow Direct Downloads"|t('rapid-download'),
         instructions: "Allow users to download files directly without entering email"|t('rapid-download'),
-        id: 'fields-' ~ field.handle ~ '-allowDirectDownload',
-        name: 'fields[' ~ field.handle ~ '][allowDirectDownload]',
-        on: field.allowDirectDownload
+        id: 'fields-' ~ field.handle ~ '-settings-allowDirectDownload',
+        name: 'fields[' ~ field.handle ~ '][settings][allowDirectDownload]',
+        on: settings.allowDirectDownload ?? field.allowDirectDownload
     }) }}
 
     {{ forms.textField({
         label: "Form Title"|t('rapid-download'),
-        id: 'fields-' ~ field.handle ~ '-formTitle',
-        name: 'fields[' ~ field.handle ~ '][formTitle]',
-        value: field.formTitle
+        id: 'fields-' ~ field.handle ~ '-settings-formTitle',
+        name: 'fields[' ~ field.handle ~ '][settings][formTitle]',
+        value: settings.formTitle ?? field.formTitle
     }) }}
 
     {{ forms.textareaField({
         label: "Form Description"|t('rapid-download'),
-        id: 'fields-' ~ field.handle ~ '-formDescription',
-        name: 'fields[' ~ field.handle ~ '][formDescription]',
-        value: field.formDescription
+        id: 'fields-' ~ field.handle ~ '-settings-formDescription',
+        name: 'fields[' ~ field.handle ~ '][settings][formDescription]',
+        value: settings.formDescription ?? field.formDescription
     }) }}
 
     {{ forms.textField({
         label: "Button Text"|t('rapid-download'),
-        id: 'fields-' ~ field.handle ~ '-buttonText',
-        name: 'fields[' ~ field.handle ~ '][buttonText]',
-        value: field.buttonText
+        id: 'fields-' ~ field.handle ~ '-settings-buttonText',
+        name: 'fields[' ~ field.handle ~ '][settings][buttonText]',
+        value: settings.buttonText ?? field.buttonText
     }) }}
 
     {{ forms.textField({
         label: "Success Message"|t('rapid-download'),
-        id: 'fields-' ~ field.handle ~ '-successMessage',
-        name: 'fields[' ~ field.handle ~ '][successMessage]',
-        value: field.successMessage
+        id: 'fields-' ~ field.handle ~ '-settings-successMessage',
+        name: 'fields[' ~ field.handle ~ '][settings][successMessage]',
+        value: settings.successMessage ?? field.successMessage
     }) }}
 </div>

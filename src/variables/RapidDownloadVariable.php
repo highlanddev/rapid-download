@@ -9,7 +9,6 @@ use highlanddev\rapiddownload\fields\RapidDownloadField;
 
 class RapidDownloadVariable
 {
-    // RapidDownloadVariable.php
     public function renderDownloadForm($field, Field $fieldDefinition, $options = []): string
     {
         if (!$field) {
@@ -18,11 +17,26 @@ class RapidDownloadVariable
 
         $assets = $field->all();
 
+        // Get the entry ID
+        $entryId = null;
+        if (!empty($assets)) {
+            // Get the ownerId (entryId) from the first asset, if possible
+            $entryId = $assets[0]->ownerId ?? null;
+        }
+
         // Get the current view component
         $view = Craft::$app->getView();
 
         // Store the current template mode
         $oldMode = $view->getTemplateMode();
+
+        // Merge default field settings with overridden options
+        $defaultSettings = [];
+        if ($fieldDefinition instanceof RapidDownloadField && $entryId) {
+            $defaultSettings = $fieldDefinition->getEntrySettings($entryId);
+        }
+
+        $mergedSettings = array_merge($defaultSettings ?? [], $options); // Merge custom overrides
 
         // Switch to plugin templates mode
         $view->setTemplateMode($view::TEMPLATE_MODE_CP);
@@ -32,12 +46,12 @@ class RapidDownloadVariable
             $pluginHandle = 'rapid-download';
             $template = 'frontend/_download-form';
 
+            // Render HTML with merged settings
             $html = $view->renderTemplate(
                 $pluginHandle . '/' . $template,
                 [
                     'assets' => $assets,
-                    'fieldSettings' => $fieldDefinition,
-                    'options' => $options
+                    'fieldSettings' => $mergedSettings, // Use merged settings
                 ]
             );
         } finally {
