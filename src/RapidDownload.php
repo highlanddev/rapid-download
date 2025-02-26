@@ -77,6 +77,15 @@ class RapidDownload extends Plugin
 
     }
 
+    public function registerPermissions(): array
+    {
+        return [
+            'accessPlugin-rapid-download' => [
+                'label' => 'Access Rapid Download',
+            ],
+        ];
+    }
+
     protected function createSettingsModel(): ?Model
     {
         return new Model();
