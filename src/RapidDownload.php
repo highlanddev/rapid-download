@@ -23,11 +23,13 @@ use yii\base\Event;
 class RapidDownload extends Plugin
 {
     public static $plugin;
+    public $handle = 'rapid-download';
 
     public function init()
     {
         parent::init();
         self::$plugin = $this;
+
 
         Event::on(
             UrlManager::class,
@@ -79,11 +81,12 @@ class RapidDownload extends Plugin
 
     public function registerPermissions(): array
     {
-        return [
-            'accessPlugin-rapid-download' => [
-                'label' => 'Access Rapid Download',
-            ],
+        $permissions = [];
+        $permissions['accessPlugin-' . $this->id] = [
+            'label' => Craft::t('rapid-download', 'Access Rapid Download Plugin'),
         ];
+
+        return $permissions;
     }
 
     protected function createSettingsModel(): ?Model
