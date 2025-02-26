@@ -13,7 +13,8 @@ use craft\services\Fields;
 use craft\events\RegisterComponentTypesEvent;
 use highlanddev\rapiddownload\fields\RapidDownloadField;
 use highlanddev\rapiddownload\variables\RapidDownloadVariable;
-
+use craft\events\RegisterUserPermissionsEvent;
+use craft\services\UserPermissions;
 use craft\web\twig\variables\CraftVariable;
 use craft\elements\Entry;
 
@@ -29,7 +30,20 @@ class RapidDownload extends Plugin
     {
         parent::init();
         self::$plugin = $this;
-
+        Event::on(
+            UserPermissions::class,
+            UserPermissions::EVENT_REGISTER_PERMISSIONS,
+            function(RegisterUserPermissionsEvent $event) {
+                $event->permissions[] = [
+                    'heading' => 'Rapid Download',
+                    'permissions' => [
+                        'accessPlugin-rapid-download' => [
+                            'label' => 'Access Rapid Download',
+                        ],
+                    ],
+                ];
+            }
+        );
 
         Event::on(
             UrlManager::class,
