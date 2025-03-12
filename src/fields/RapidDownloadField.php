@@ -14,6 +14,9 @@ class RapidDownloadField extends Assets
     public string $buttonText = 'Send';
     public string $successMessage = 'Check your email for the download links!';
     public bool $enablePerEntrySettings = false;
+
+    public bool $hideEntryFormSettings = false;
+
     private ?array $settings = null;
 
     public static function displayName(): string
@@ -71,7 +74,8 @@ class RapidDownloadField extends Assets
         }
 
         // Append the custom entry settings template if per-entry settings are enabled
-        if ($this->enablePerEntrySettings) {
+        // and form settings are not hidden
+        if ($this->enablePerEntrySettings && !$this->hideEntryFormSettings) {
             return $assetHtml . Craft::$app->getView()->renderTemplate(
                     'rapid-download/downloads/_entry-settings',
                     [
@@ -81,7 +85,6 @@ class RapidDownloadField extends Assets
                     ]
                 );
         }
-
         return $assetHtml; // If no per-entry settings, return only the asset input
     }
 

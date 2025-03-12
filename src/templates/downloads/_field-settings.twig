@@ -9,6 +9,14 @@
 }) }}
 
 {{ forms.lightswitchField({
+    label: "Hide Form Settings"|t('rapid-download'),
+    instructions: "When enabled, hides Form Title, Form Description, Button Text and Success Message settings in entries"|t('rapid-download'),
+    id: 'hideEntryFormSettings',
+    name: 'hideEntryFormSettings',
+    on: field.hideEntryFormSettings
+}) }}
+
+{{ forms.lightswitchField({
     label: "Allow Direct Downloads"|t('rapid-download'),
     instructions: "Allow users to download files directly without entering email"|t('rapid-download'),
     id: 'allowDirectDownload',
