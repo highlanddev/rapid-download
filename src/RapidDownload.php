@@ -56,7 +56,7 @@ class RapidDownload extends Plugin
             $entry = $event->sender;
 
             Craft::$app->getDb()->createCommand()
-                ->delete('rapiddownload_settings', ['entryId' => $entry->id])
+                ->delete('{{%rapiddownload_settings}}', ['entryId' => $entry->id])
                 ->execute();
         });
 
