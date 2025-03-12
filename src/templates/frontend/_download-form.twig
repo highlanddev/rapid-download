@@ -3,8 +3,8 @@
 
     <div class="node radius shadow">
         <div class="rapid-download-form">
-            <h5>{{ fieldSettings.formTitle }}</h5>
-            <p>{{ fieldSettings.formDescription }}</p>
+            {% if fieldSettings.formTitle|length %}<h5>{{ fieldSettings.formTitle }}</h5>{% endif %}
+            {% if fieldSettings.formDescription|length %}<p>{{ fieldSettings.formDescription }}</p>{% endif %}
             {% if fieldSettings.allowDirectDownload %}
                 <div class="direct-downloads">
                     {% for file in assets %}
