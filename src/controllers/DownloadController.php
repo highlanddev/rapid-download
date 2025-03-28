@@ -36,7 +36,7 @@ class DownloadController extends Controller
             $message->setSubject('Your Requested Downloads');
 
             $body = "Your digital assets are ready for download:\n\n<ul>";
-            $body .= "<li><a href='" . $asset->getUrl() . "'>" . $asset->filename . "</a></li>";
+            $body .= "<li><a href='" . $asset->getUrl() . "'>" . $asset->title . "</a></li>";
             $body .= "</ul>";
 
             $message->setHtmlBody($body);
