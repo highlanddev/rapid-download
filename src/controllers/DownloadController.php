@@ -24,7 +24,7 @@ class DownloadController extends Controller
             Craft::$app->db->createCommand()->insert('{{%rapiddownload_downloads}}', [
                 'email' => $email,
                 'pageUrl' => $request->getReferrer(),
-                'filenames' => $asset->filename,
+                'filenames' => $asset->title,
                 'dateCreated' => (new \DateTime())->format('Y-m-d H:i:s'),
                 'dateUpdated' => (new \DateTime())->format('Y-m-d H:i:s'),
                 'uid' => \craft\helpers\StringHelper::UUID(),
@@ -35,7 +35,7 @@ class DownloadController extends Controller
             $message->setTo($email);
             $message->setSubject('Your Requested Downloads');
 
-            $body = "Here are your download links:\n\n<ul>";
+            $body = "Your digital assets are ready for download:\n\n<ul>";
             $body .= "<li><a href='" . $asset->getUrl() . "'>" . $asset->filename . "</a></li>";
             $body .= "</ul>";
 
