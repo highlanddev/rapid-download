@@ -24,7 +24,7 @@
                     <input type="hidden" name="assets" value="{&quot;where&quot;:{&quot;elements.id&quot;:[{{ assets|map(a => a.id)|join(',') }}]}}">
                     <div>
                         <label for="email">Your email</label>
-                        <input type="email" name="email" id="email" placeholder="Email address" required class="form-control">
+                        <input type="email" name="email" id="email" placeholder="Email address" required class="form-control" value="{{ currentUser ? currentUser.email }}">
                         <button type="submit" class="button">{{ fieldSettings.buttonText }}</button>
                     </div>
                 </form>
